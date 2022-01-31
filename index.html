@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Магазин</title>
+  <script src="./common.js"></script>
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<header>
+  <h1>Лакшари</h1>
+</header>
+<main>
+  <h2>Список</h2>
+  <section class="List_Vizel">
+    <div class="List_Item">
+      <header>
+        <picture>
+          <img src="catalog/lux-waves/lux-waves.png">
+        </picture>
+      </header>
+      <body>
+      <p>Описание</p>
+      </body>
+      <footer>
+        <button onclick="buyVizel('lux-waves')">Загрузить в ресурсы</button>
+      </footer>
+    </div>
+  </section>
+</main>
+<footer></footer>
+
+<script>
+  window.addEventListener('message', _onCrossFrameMessage);
+
+  function _onCrossFrameMessage(event){
+    console.log('myEVENT', event);
+  }
+
+  async function buyVizel(name) {
+    const fileReq = await fetch(`catalog/${name}/${name}.js`);
+    const fileMapReq = await fetch(`catalog/${name}/${name}.js.map`);
+    const file = await fileReq.text();
+    const fileMap = await fileMapReq.text();
+    debugger;
+    const data = [
+      {
+        data: file,
+        type: 'application/javascript',
+        name:`${name}/${name}.js`
+      },
+      {
+        data: fileMap,
+        type: 'application/javascript',
+        name:`${name}/${name}.js.map`
+      },
+    ]
+
+
+    const type = 'LOAD_VIZEL';
+    _send({type, payload: data});
+  }
+
+</script>
+</body>
+</html>
